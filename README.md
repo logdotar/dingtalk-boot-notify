@@ -23,7 +23,9 @@
 
 ### 2. 编辑配置文件
 
-编辑 `config.json`：
+程序支持 JSON 和 TOML 两种配置文件格式，优先加载 `config.toml`。
+
+**JSON 格式 (config.json)：**
 
 ```json
 {
@@ -51,6 +53,31 @@
 }
 ```
 
+**TOML 格式 (config.toml)：**
+
+```toml
+[dingtalk]
+webhook = "https://oapi.dingtalk.com/robot/send?access_token=你的Token"
+secret = "SEC你的加签秘钥"
+
+[retry]
+max_attempts = 5
+init_delay = "2s"
+max_delay = "30s"
+
+[network]
+wait_timeout = "120s"
+
+[log]
+filename = "service.log"
+max_size = 10
+max_backups = 3
+max_age = 30
+compress = true
+level = "info"
+console = true
+```
+
 ### 3. 编译程序
 
 ```bash
@@ -58,7 +85,7 @@
 make build
 
 # 或直接编译
-go build -o dingtalk-boot-notify.exe
+go build -o DingtalkBootNotify.exe
 ```
 
 ### 4. 安装服务
@@ -66,25 +93,33 @@ go build -o dingtalk-boot-notify.exe
 以管理员身份运行 cmd：
 
 ```cmd
-dingtalk-boot-notify.exe install
-dingtalk-boot-notify.exe start
+DingtalkBootNotify.exe install
+DingtalkBootNotify.exe start
 ```
 
 ### 5. 服务控制
 
 ```cmd
 # 停止服务
-dingtalk-boot-notify.exe stop
+DingtalkBootNotify.exe stop
 
 # 卸载服务
-dingtalk-boot-notify.exe uninstall
+DingtalkBootNotify.exe uninstall
 ```
 
 ## 配置说明
 
 ### 配置文件
 
-程序使用 [Viper](https://github.com/spf13/viper) 库管理配置，支持 JSON 格式。
+程序使用 [Viper](https://github.com/spf13/viper) 库管理配置，支持 JSON 和 TOML 两种格式。
+
+配置文件加载顺序：
+1. 优先查找 `config.toml`
+2. 如果不存在，查找 `config.json`
+
+支持的文件格式：
+- `.json`: JSON 格式配置文件
+- `.toml`: TOML 格式配置文件
 
 ### DingTalk 配置
 
@@ -165,8 +200,10 @@ dingtalk-boot-notify/
 ├── go.mod                   # Go 模块定义
 ├── go.sum                   # 依赖版本锁定
 ├── Makefile                 # 构建脚本
-├── config.json              # 配置文件
-├── config.example.json      # 配置示例
+├── config.json              # 配置文件 (JSON 格式)
+├── config.toml              # 配置文件 (TOML 格式)
+├── config.example.json      # JSON 配置示例
+├── config.example.toml      # TOML 配置示例
 ├── README.md                # 项目文档
 └── internal/
     ├── config/              # 配置管理 (Viper)

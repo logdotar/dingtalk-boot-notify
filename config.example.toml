@@ -1,0 +1,37 @@
+# 钉钉机器人配置
+[dingtalk]
+# 钉钉群机器人的 Webhook 地址
+webhook = "https://oapi.dingtalk.com/robot/send?access_token=你的Token"
+# 钉钉群机器人的加签密钥（可选，如果启用了加签验证）
+secret = "SEC你的加签秘钥"
+
+# 消息发送重试策略配置
+[retry]
+# 最大重试次数
+max_attempts = 5
+# 初始重试延迟时间（支持的时间单位：ns, us, ms, s, m, h）
+init_delay = "2s"
+# 最大重试延迟时间
+max_delay = "30s"
+
+# 网络相关配置
+[network]
+# 等待网络就绪的超时时间
+wait_timeout = "120s"
+
+# 日志配置
+[log]
+# 日志文件名
+filename = "service.log"
+# 单个日志文件的最大大小（单位：MB）
+max_size = 10
+# 保留的旧日志文件最大数量
+max_backups = 3
+# 日志文件保留天数
+max_age = 30
+# 是否压缩归档的日志文件
+compress = true
+# 日志级别（支持：debug, info, warn, error, dpanic, panic, fatal）
+level = "info"
+# 是否同时输出到控制台
+console = true

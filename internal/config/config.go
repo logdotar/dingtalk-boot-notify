@@ -4,6 +4,8 @@ package config
 import (
 	"fmt"
 	"net/url"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/spf13/viper"
@@ -90,7 +92,12 @@ func Load(configPath string) (*Config, error) {
 	setDefaults(v)
 
 	v.SetConfigFile(configPath)
-	v.SetConfigType("json")
+
+	configType := getConfigType(configPath)
+	if configType == "" {
+		return nil, fmt.Errorf("不支持的配置文件格式，仅支持 .json 和 .toml")
+	}
+	v.SetConfigType(configType)
 
 	if err := v.ReadInConfig(); err != nil {
 		return nil, fmt.Errorf("读取配置文件失败: %w", err)
@@ -109,6 +116,28 @@ func Load(configPath string) (*Config, error) {
 	}
 
 	return &cfg, nil
+}
+
+// getConfigType 根据文件扩展名返回对应的配置类型。
+//
+//	configPath: 配置文件的绝对或相对路径
+//
+// 返回值:
+//   - string: 配置类型（"json" 或 "toml"），如果扩展名不支持则返回空字符串
+//
+// 支持的配置文件格式：
+//   - .json: 返回 "json"
+//   - .toml: 返回 "toml"
+func getConfigType(configPath string) string {
+	ext := strings.ToLower(filepath.Ext(configPath))
+	switch ext {
+	case ".json":
+		return "json"
+	case ".toml":
+		return "toml"
+	default:
+		return ""
+	}
 }
 
 // Validate 检查配置值是否有效。

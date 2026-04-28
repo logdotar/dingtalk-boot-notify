@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"syscall"
+	"time"
 
 	"dingtalk-boot-notify/internal/config"
 	"dingtalk-boot-notify/internal/logger"
@@ -41,9 +42,11 @@ type program struct {
 // 它初始化 worker 上下文并启动 worker goroutine。
 // 如果上下文创建失败则返回错误。
 func (p *program) Start(s service.Service) error {
+	buildTime := formatBuildTime(BuildTime)
+
 	log.Info("服务正在启动...",
 		zap.String("版本", Version),
-		zap.String("构建时间", BuildTime),
+		zap.String("构建时间", buildTime),
 		zap.String("构建提交", BuildCommit),
 	)
 	p.ctx, p.cancel = context.WithCancel(context.Background())
@@ -78,6 +81,21 @@ func (p *program) Stop(s service.Service) error {
 	return nil
 }
 
+// formatBuildTime 将 UTC 格式的构建时间转换为本地时区显示。
+//
+//	buildTime: RFC3339 格式的 UTC 时间字符串
+//
+// 返回值:
+//   - string: 转换后的本地时间字符串，格式为 "2006-01-02T15:04:05Z07:00"
+//
+// 如果解析失败，返回原始字符串。
+func formatBuildTime(buildTime string) string {
+	if t, err := time.Parse(time.RFC3339, buildTime); err == nil {
+		return t.Local().Format("2006-01-02T15:04:05Z07:00")
+	}
+	return buildTime
+}
+
 // main 是应用程序入口点。
 //
 //	main()
@@ -98,7 +116,10 @@ func main() {
 	}
 	workDir := filepath.Dir(execPath)
 
-	configPath := filepath.Join(workDir, "config.json")
+	configPath := filepath.Join(workDir, "config.toml")
+	if _, err := os.Stat(configPath); os.IsExist(err) {
+		configPath = filepath.Join(workDir, "config.json")
+	}
 
 	logCfg, err := config.Load(configPath)
 	if err != nil {
