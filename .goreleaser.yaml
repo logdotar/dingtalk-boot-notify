@@ -1,0 +1,75 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go install github.com/tc-hib/go-winres@latest
+    - go generate ./...
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      # - linux
+      - windows
+      # - darwin
+    goarch:
+      - amd64
+    main: .
+    binary: DingtalkBootNotify
+    flags:
+      - -trimpath
+    # 编译参数：去掉调试信息、注入版本号
+    ldflags:
+      - -s -w
+      - -X main.Version={{.Version}}
+      - -X main.BuildTime={{.Date}}
+      - -X main.BuildCommit={{.ShortCommit}}
+
+archives:
+  - formats: [ tar.gz ]
+    # 与 uname 兼容的命名模板（Linux_x86_64 这种风格）
+    name_template: >-
+      {{ .ProjectName }}-
+      {{- .Version }}-
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # 为 Windows 预留 zip 格式（你当前没打开 Windows，可保留或删掉）
+    format_overrides:
+      - goos: windows
+        formats: [ zip ]
+    files:
+      - README.md
+      - config.example.json
+
+# changelog 配置已经合理，排除一些无关 commit 前缀
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+# 显式启用 checksums（其实默认就会启用）
+checksum:
+  name_template: '{{ .ProjectName }}-{{ .Version }}-checksums.txt'
+
+release:
+  # 在 footer 加上当前 tag / commit 信息，方便用户查看
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+    Tag: {{ .Tag }} ({{ .ShortCommit }})

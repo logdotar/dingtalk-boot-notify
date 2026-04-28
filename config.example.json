@@ -1,0 +1,23 @@
+{
+  "dingtalk": {
+    "webhook": "https://oapi.dingtalk.com/robot/send?access_token=你的Token",
+    "secret": "SEC你的加签秘钥"
+  },
+  "retry": {
+    "max_attempts": 5,
+    "init_delay": "2s",
+    "max_delay": "30s"
+  },
+  "network": {
+    "wait_timeout": "120s"
+  },
+  "log": {
+    "filename": "service.log",
+    "max_size": 10,
+    "max_backups": 3,
+    "max_age": 30,
+    "compress": true,
+    "level": "info",
+    "console": true
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "RT_GROUP_ICON": {
+    "APP": {
+      "0000": [
+        "app_16.png",
+        "app_32.png",
+        "app_48.png",
+        "app_128.png",
+        "app_256.png"
+      ]
+    }
+  },
+  "RT_MANIFEST": {
+    "#1": {
+      "0409": {
+        "identity": {
+          "name": "DingTalkBootNotify",
+          "version": "1.2.0.0"
+        },
+        "description": "电脑开机后自动发送钉钉机器人消息提醒",
+        "minimum-os": "win10",
+        "execution-level": "as invoker",
+        "ui-access": false,
+        "auto-elevate": false,
+        "dpi-awareness": "system",
+        "disable-theming": false,
+        "disable-window-filtering": false,
+        "high-resolution-scrolling-aware": false,
+        "ultra-high-resolution-scrolling-aware": false,
+        "long-path-aware": false,
+        "printer-driver-isolation": false,
+        "gdi-scaling": false,
+        "segment-heap": false,
+        "use-common-controls-v6": false
+      }
+    }
+  },
+  "RT_VERSION": {
+    "#1": {
+      "0000": {
+        "fixed": {
+          "file_version": "1.2.0.0",
+          "product_version": "1.2.0.0"
+        },
+        "info": {
+          "0409": {
+            "Comments": "",
+            "CompanyName": "零度信徒",
+            "FileDescription": "电脑开机后自动发送钉钉机器人消息提醒",
+            "FileVersion": "1.2.0.0",
+            "InternalName": "DingTalkBootNotify",
+            "LegalCopyright": "Copyright © 2026 ZGQ",
+            "LegalTrademarks": "",
+            "OriginalFilename": "DingTalkBootNotify.exe",
+            "PrivateBuild": "",
+            "ProductName": "DingTalkBootNotify",
+            "ProductVersion": "1.2.0.0",
+            "SpecialBuild": ""
+          }
+        }
+      }
+    }
+  }
+}
