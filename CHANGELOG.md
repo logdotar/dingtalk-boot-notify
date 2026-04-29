@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.3](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.2...v0.9.3) (2026-04-29)
+
+
+### Build System
+
+* 安装包中包含toml配置示例文件🍭🍭🍭 ([1a0ab47](https://github.com/logdotar/dingtalk-boot-notify/commit/1a0ab47fc6bbf707033ff07869182bd943d9b8b0))
+
 ## [0.9.2](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.1...v0.9.2) (2026-04-28)
 
 
