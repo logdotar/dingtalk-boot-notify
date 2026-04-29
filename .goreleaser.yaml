@@ -52,6 +52,7 @@ archives:
     files:
       - README.md
       - config.example.json
+      - config.example.toml
 
 # changelog 配置已经合理，排除一些无关 commit 前缀
 changelog:
