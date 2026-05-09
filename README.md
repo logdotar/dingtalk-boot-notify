@@ -31,7 +31,12 @@
 {
   "dingtalk": {
     "webhook": "https://oapi.dingtalk.com/robot/send?access_token=你的Token",
-    "secret": "SEC你的加签秘钥"
+    "secret": "SEC你的加签秘钥",
+    "at": {
+      "at_mobiles": [],
+      "at_user_ids": [],
+      "is_at_all": false
+    }
   },
   "retry": {
     "max_attempts": 5,
@@ -59,6 +64,11 @@
 [dingtalk]
 webhook = "https://oapi.dingtalk.com/robot/send?access_token=你的Token"
 secret = "SEC你的加签秘钥"
+
+[dingtalk.at]
+at_mobiles = []
+at_user_ids = []
+is_at_all = false
 
 [retry]
 max_attempts = 5
@@ -127,6 +137,21 @@ DingtalkBootNotify.exe uninstall
 |------|------|------|
 | webhook | 钉钉机器人 Webhook URL | 是 |
 | secret | 钉钉机器人加签秘钥 | 否 |
+
+#### @ 配置
+
+在 `dingtalk.at` 下可以配置消息的 @ 功能：
+
+| 字段 | 说明 | 默认值 |
+|------|------|--------|
+| at_mobiles | 需要 @ 的手机号列表（数组） | [] |
+| at_user_ids | 需要 @ 的用户 ID 列表（数组） | [] |
+| is_at_all | 是否 @ 所有人 | false |
+
+**注意**：
+- 如果 `is_at_all` 设置为 `true`，则会 @ 群里所有成员
+- `at_mobiles` 和 `at_user_ids` 可以同时使用
+- 只有在消息内容中包含 `@手机号` 或 `@用户ID` 时，对应的成员才会被 @
 
 ### 重试配置
 

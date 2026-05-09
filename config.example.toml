@@ -5,6 +5,15 @@ webhook = "https://oapi.dingtalk.com/robot/send?access_token=你的Token"
 # 钉钉群机器人的加签密钥（可选，如果启用了加签验证）
 secret = "SEC你的加签秘钥"
 
+# @ 相关配置
+[dingtalk.at]
+# 需要 @ 的手机号列表（数组格式）
+at_mobiles = ["13800138000", "13900139000"]
+# 需要 @ 的用户 ID 列表（数组格式）
+at_user_ids = []
+# 是否 @ 所有人
+is_at_all = false
+
 # 消息发送重试策略配置
 [retry]
 # 最大重试次数

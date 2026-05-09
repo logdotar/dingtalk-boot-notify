@@ -1,7 +1,12 @@
 {
   "dingtalk": {
     "webhook": "https://oapi.dingtalk.com/robot/send?access_token=你的Token",
-    "secret": "SEC你的加签秘钥"
+    "secret": "SEC你的加签秘钥",
+    "at": {
+      "at_mobiles": ["13800138000", "13900139000"],
+      "at_user_ids": [],
+      "is_at_all": false
+    }
   },
   "retry": {
     "max_attempts": 5,

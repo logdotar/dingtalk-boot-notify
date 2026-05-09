@@ -142,6 +142,7 @@ func (w *Worker) sendWithRetry(ctx context.Context) error {
 	defer ticker.Stop()
 
 	title, content := w.buildBootMessage()
+	atInfo := w.buildAtInfo()
 
 	for attempt := 1; attempt <= w.cfg.Retry.MaxAttempts; attempt++ {
 		select {
@@ -150,7 +151,7 @@ func (w *Worker) sendWithRetry(ctx context.Context) error {
 			return ctx.Err()
 		case <-ticker.C:
 			w.logger.Info("正在发送消息...", zap.Int("尝试次数", attempt))
-			err := w.client.SendMarkdown(ctx, title, content, nil)
+			err := w.client.SendMarkdown(ctx, title, content, atInfo)
 			if err == nil {
 				w.logger.Info("消息发送成功！")
 				return nil
@@ -174,4 +175,19 @@ func (w *Worker) sendWithRetry(ctx context.Context) error {
 		}
 	}
 	return nil
+}
+
+// buildAtInfo 从配置中构建 AtInfo 对象。
+func (w *Worker) buildAtInfo() *dingtalk.AtInfo {
+	atConfig := w.cfg.DingTalk.At
+
+	if len(atConfig.AtMobiles) == 0 && len(atConfig.AtUserIds) == 0 && !atConfig.IsAtAll {
+		return nil
+	}
+
+	return &dingtalk.AtInfo{
+		AtMobiles: atConfig.AtMobiles,
+		AtUserIds: atConfig.AtUserIds,
+		IsAtAll:   atConfig.IsAtAll,
+	}
 }

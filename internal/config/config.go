@@ -22,8 +22,16 @@ type Config struct {
 
 // DingTalkConfig 包含钉钉 webhook 配置。
 type DingTalkConfig struct {
-	Webhook string `mapstructure:"webhook"`
-	Secret  string `mapstructure:"secret"`
+	Webhook string   `mapstructure:"webhook"`
+	Secret  string   `mapstructure:"secret"`
+	At      AtConfig `mapstructure:"at"`
+}
+
+// AtConfig 包含 @ 相关配置。
+type AtConfig struct {
+	AtMobiles []string `mapstructure:"at_mobiles"`
+	AtUserIds []string `mapstructure:"at_user_ids"`
+	IsAtAll   bool     `mapstructure:"is_at_all"`
 }
 
 // RetryConfig 包含消息发送的重试策略配置。
