@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.5](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.4...v0.9.5) (2026-05-09)
+
+
+### Bug Fixes
+
+* 修复钉钉消息@功能无效👠👠👠 ([1758976](https://github.com/logdotar/dingtalk-boot-notify/commit/175897647adde3d52d48daccb98968edd4175722))
+
 ## [0.9.4](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.3...v0.9.4) (2026-05-09)
 
 
