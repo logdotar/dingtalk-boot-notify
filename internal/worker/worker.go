@@ -112,6 +112,9 @@ func (w *Worker) waitForNetwork(ctx context.Context) error {
 // buildBootMessage 构建开机通知消息（Markdown 格式）。
 func (w *Worker) buildBootMessage() (title, content string) {
 	title = "【开机提醒】"
+
+	atText := w.buildAtText()
+
 	content = fmt.Sprintf(`### 🖥️ 电脑开机通知
 
 **主机名：** %s
@@ -122,11 +125,39 @@ func (w *Worker) buildBootMessage() (title, content string) {
 ⏰ 时间：%s
 
 ---
-📌 请确认是否为预期操作`,
+📌 请确认是否为预期操作%s`,
 		w.hostname,
 		time.Now().Format(time.DateTime),
+		atText,
 	)
 	return
+}
+
+// buildAtText 构建消息内容中的 @ 文本部分。
+func (w *Worker) buildAtText() string {
+	atConfig := w.cfg.DingTalk.At
+
+	if atConfig.IsAtAll {
+		return "\n\n@所有人"
+	}
+
+	var atText string
+	for _, mobile := range atConfig.AtMobiles {
+		if atText != "" {
+			atText += " "
+		}
+		atText += "@" + mobile
+	}
+	for _, userId := range atConfig.AtUserIds {
+		if atText != "" {
+			atText += " "
+		}
+		atText += "@" + userId
+	}
+	if atText != "" {
+		atText = "\n\n" + atText
+	}
+	return atText
 }
 
 // sendWithRetry 使用指数退避重试发送消息。
