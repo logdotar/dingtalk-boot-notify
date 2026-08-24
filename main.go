@@ -17,6 +17,7 @@ import (
 
 	"github.com/kardianos/service"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 // 版本信息，由构建脚本注入
@@ -111,26 +112,37 @@ func formatBuildTime(buildTime string) string {
 func main() {
 	execPath, err := os.Executable()
 	if err != nil {
+		// 极端情况：连路径都获取不到，只能输出到控制台
 		fmt.Fprintf(os.Stderr, "获取可执行文件路径失败: %v\n", err)
 		os.Exit(1)
 	}
 	workDir := filepath.Dir(execPath)
 
+	log = logger.MustInit(logger.Config{
+		Filename: filepath.Join(workDir, "startup.log"),
+		MaxSize:  1, // 启动日志通常很小，1MB 足够
+		MaxAge:   3,
+		Compress: true,
+		Level:    zapcore.InfoLevel, // 早期日志先定死为 Info 级别
+		Console:  true,
+	})
+	defer func() { _ = log.Sync() }()
+
+	log.Info("应用程序正在启动...")
+
 	configPath := filepath.Join(workDir, "config.toml")
-	if _, err := os.Stat(configPath); os.IsExist(err) {
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		configPath = filepath.Join(workDir, "config.json")
 	}
 
 	logCfg, err := config.Load(configPath)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "加载配置失败: %v\n", err)
-		os.Exit(1)
+		log.Fatal("加载配置失败", zap.Error(err))
 	}
 
 	logLevel, err := logCfg.Log.ToZapLevel()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "无效的日志级别: %v\n", err)
-		os.Exit(1)
+		log.Fatal("无效的日志级别", zap.Error(err))
 	}
 
 	log = logger.MustInit(logger.Config{
