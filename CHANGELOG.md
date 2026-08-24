@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.6](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.5...v0.9.6) (2026-08-24)
+
+
+### Bug Fixes
+
+* 修复配置文件错误时未打印到日志文件且无法在 toml/json 间切换的问题 ([cccd9a5](https://github.com/logdotar/dingtalk-boot-notify/commit/cccd9a56e0cc535a57760435e0ddb57ae6afb31e))
+
 ## [0.9.5](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.4...v0.9.5) (2026-05-09)
 
 
