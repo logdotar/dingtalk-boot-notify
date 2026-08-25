@@ -4,6 +4,7 @@ package logger
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -32,7 +33,7 @@ func Init(cfg Config) (*zap.Logger, error) {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.TimeKey = "time"
 	encoderConfig.MessageKey = "message"
-	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	encoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.DateTime)
 
 	fileCore := zapcore.NewCore(
 		zapcore.NewJSONEncoder(encoderConfig),

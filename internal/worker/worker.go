@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"dingtalk-boot-notify/internal/config"
@@ -125,12 +126,18 @@ func (w *Worker) buildBootMessage() (title, content string) {
 ⏰ 时间：%s
 
 ---
-📌 请确认是否为预期操作%s`,
-		w.hostname,
+📌 请确认是否为预期操作
+
+---`, w.hostname,
 		time.Now().Format(time.DateTime),
-		atText,
 	)
-	return
+
+	var sb strings.Builder
+	sb.WriteString(content)
+	sb.WriteString("\n\n")
+	sb.WriteString(atText)
+
+	return title, sb.String()
 }
 
 // buildAtText 构建消息内容中的 @ 文本部分。
@@ -138,25 +145,17 @@ func (w *Worker) buildAtText() string {
 	atConfig := w.cfg.DingTalk.At
 
 	if atConfig.IsAtAll {
-		return "\n\n@所有人"
+		return "@所有人"
 	}
 
 	var atText string
 	for _, mobile := range atConfig.AtMobiles {
-		if atText != "" {
-			atText += " "
-		}
-		atText += "\n\n@" + mobile
+		atText += fmt.Sprintf("@%s", mobile)
 	}
 	for _, userId := range atConfig.AtUserIds {
-		if atText != "" {
-			atText += " "
-		}
-		atText += "\n\n@" + userId
+		atText += fmt.Sprintf("@%s", userId)
 	}
-	if atText != "" {
-		atText = "\n\n" + atText
-	}
+
 	return atText
 }
 
