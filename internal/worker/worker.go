@@ -146,13 +146,13 @@ func (w *Worker) buildAtText() string {
 		if atText != "" {
 			atText += " "
 		}
-		atText += "@" + mobile
+		atText += "\n\n@" + mobile
 	}
 	for _, userId := range atConfig.AtUserIds {
 		if atText != "" {
 			atText += " "
 		}
-		atText += "@" + userId
+		atText += "\n\n@" + userId
 	}
 	if atText != "" {
 		atText = "\n\n" + atText

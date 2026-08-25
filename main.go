@@ -92,7 +92,7 @@ func (p *program) Stop(s service.Service) error {
 // 如果解析失败，返回原始字符串。
 func formatBuildTime(buildTime string) string {
 	if t, err := time.Parse(time.RFC3339, buildTime); err == nil {
-		return t.Local().Format("2006-01-02T15:04:05Z07:00")
+		return t.Local().Format(time.DateTime)
 	}
 	return buildTime
 }

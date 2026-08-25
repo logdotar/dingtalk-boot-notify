@@ -31,6 +31,7 @@ type Config struct {
 func Init(cfg Config) (*zap.Logger, error) {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.TimeKey = "time"
+	encoderConfig.MessageKey = "message"
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 
 	fileCore := zapcore.NewCore(

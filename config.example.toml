@@ -18,7 +18,7 @@ is_at_all = false
 [retry]
 # 最大重试次数
 max_attempts = 5
-# 初始重试延迟时间（支持的时间单位：ns, us, ms, s, m, h）
+# 初始重试延迟时间（不能大于最大重试延迟时间，支持的时间单位：ns, us, ms, s, m, h）
 init_delay = "2s"
 # 最大重试延迟时间
 max_delay = "30s"
