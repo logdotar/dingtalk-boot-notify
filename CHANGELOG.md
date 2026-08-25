@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.7](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.6...v0.9.7) (2026-08-25)
+
+
+### Performance Improvements
+
+* 优化at和消息的间距，其他一些小优化👠👠👠 ([06c977d](https://github.com/logdotar/dingtalk-boot-notify/commit/06c977d30a5f7a9ebb7d258a699e0537c47b2f8c))
+
 ## [0.9.6](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.5...v0.9.6) (2026-08-24)
 
 
