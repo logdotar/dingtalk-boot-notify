@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.8](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.7...v0.9.8) (2026-08-25)
+
+
+### Bug Fixes
+
+* 修复at和消息间距无效🎉🎉🎉 ([968b9c7](https://github.com/logdotar/dingtalk-boot-notify/commit/968b9c716a410e4e392ba3a2c0f1cefa19150616))
+
 ## [0.9.7](https://github.com/logdotar/dingtalk-boot-notify/compare/v0.9.6...v0.9.7) (2026-08-25)
 
 
